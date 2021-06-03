@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/InnovationDaySlackBot.iml" filepath="$PROJECT_DIR$/.idea/InnovationDaySlackBot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jbot/jbot/jbot.iml" filepath="$PROJECT_DIR$/jbot/jbot/jbot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jbot/jbot-example/jbot-example.iml" filepath="$PROJECT_DIR$/jbot/jbot-example/jbot-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jbot/jbot-parent.iml" filepath="$PROJECT_DIR$/jbot/jbot-parent.iml" />
+    </modules>
+  </component>
+</project>

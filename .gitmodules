@@ -1,0 +1,3 @@
+[submodule "jbot"]
+	path = jbot
+	url = https://github.com/rampatra/jbot.git

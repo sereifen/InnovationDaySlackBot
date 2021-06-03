@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.slack.api.bolt.App;
 import com.slack.api.bolt.jetty.SlackAppServer;
 import static com.slack.api.model.block.Blocks.*;
@@ -6,6 +8,12 @@ import static com.slack.api.model.view.Views.*;
 import com.slack.api.model.event.AppHomeOpenedEvent;
 import com.slack.api.model.event.AppMentionEvent;
 import com.slack.api.model.event.StarAddedEvent;
+
+import java.io.*;
+import java.net.*;
+import java.net.http.HttpClient;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.slack.api.model.block.element.BlockElements.*;
 public class MyApp {
@@ -26,10 +34,34 @@ public class MyApp {
     private static void AddMentions(App app) {
         app.event(AppMentionEvent.class, (payload, ctx) -> {
 
-            ctx.say("hello " + payload.getEvent().getUsername());
+            ctx.say("hello " + GetUserRealName(payload.getEvent().getUser()));
 
             return ctx.ack();
         });
+    }
+
+    private static String GetUserRealName(String user) throws IOException {
+
+        URL url = new URL("https://slack.com/api/users.info?user="+user+"&pretty=1");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("Authorization", "Bearer xoxb-2128866783477-2129261061365-KnGlwJgb9P6rMW7D7kFD5CBW");
+        con.setRequestMethod("GET");
+
+        InputStream in = new BufferedInputStream(con.getInputStream());
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+        StringBuilder result = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            result.append(line);
+        }
+
+        String ret = result.toString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(ret);
+        return jsonNode.get("user").get("real_name").asText();
     }
 
     private static void AddAppHome(App app) {

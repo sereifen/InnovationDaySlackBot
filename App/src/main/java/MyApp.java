@@ -13,7 +13,7 @@ public class MyApp {
         var app = new App();
 
         // All the room in the world for your code
-        app.command("/hello", (req, ctx) -> {
+        app.command("-hello", (req, ctx) -> {
             return ctx.ack(":wave: Hello!");
         });
         AddAppHome(app);
@@ -26,7 +26,7 @@ public class MyApp {
     private static void AddMentions(App app) {
         app.event(AppMentionEvent.class, (payload, ctx) -> {
 
-            ctx.say("hello");
+            ctx.say("hello " + payload.getEvent().getUsername());
 
             return ctx.ack();
         });
